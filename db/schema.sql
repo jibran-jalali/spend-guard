@@ -1,12 +1,12 @@
 create extension if not exists pgcrypto;
 
-create type public.user_role as enum ('admin');
-create type public.subscription_status as enum ('active', 'inactive', 'canceled', 'paused');
-create type public.usage_status as enum ('healthy', 'underused', 'unused', 'duplicate_candidate');
-create type public.billing_cycle as enum ('monthly', 'quarterly', 'annual');
-create type public.payment_status as enum ('projected', 'paid', 'pending', 'overdue');
-create type public.alert_type as enum ('renewal', 'payment', 'duplicate', 'usage', 'analysis');
-create type public.alert_severity as enum ('low', 'medium', 'high');
+DO $$ BEGIN CREATE TYPE public.user_role AS ENUM ('admin'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE public.subscription_status AS ENUM ('active', 'inactive', 'canceled', 'paused'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE public.usage_status AS ENUM ('healthy', 'underused', 'unused', 'duplicate_candidate'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE public.billing_cycle AS ENUM ('monthly', 'quarterly', 'annual'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE public.payment_status AS ENUM ('projected', 'paid', 'pending', 'overdue'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE public.alert_type AS ENUM ('renewal', 'payment', 'duplicate', 'usage', 'analysis'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE public.alert_severity AS ENUM ('low', 'medium', 'high'); EXCEPTION WHEN duplicate_object THEN null; END $$;
 
 create table if not exists public.businesses (
   id uuid primary key default gen_random_uuid(),
@@ -183,6 +183,8 @@ create or replace function public.current_business_id()
 returns uuid
 language sql
 stable
+security definer
+set search_path = public
 as $$
   select business_id from public.profiles where id = auth.uid()
 $$;
@@ -199,6 +201,9 @@ alter table public.ai_analyses enable row level security;
 
 create policy "business_select" on public.businesses
 for select using (id = public.current_business_id());
+
+create policy "business_update" on public.businesses
+for update using (id = public.current_business_id());
 
 create policy "profiles_select" on public.profiles
 for select using (business_id = public.current_business_id());
@@ -233,3 +238,8 @@ with check (business_id = public.current_business_id());
 create policy "ai_analyses_manage" on public.ai_analyses
 for all using (business_id = public.current_business_id())
 with check (business_id = public.current_business_id());
+
+
+
+
+

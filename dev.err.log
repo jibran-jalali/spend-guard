@@ -17779,3 +17779,1076 @@ Incoming: [async ()=>{
     at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:886:13) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4604:56)
 [browser] ⨯ unhandledRejection: ChunkLoadError: Failed to load chunk /_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_0kcl1js.js from module [project]/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js [app-client] (ecmascript)
 [browser] ⨯ unhandledRejection: ChunkLoadError: Failed to load chunk /_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_0yjw1oe._.js from module [turbopack]/browser/dev/hmr-client/hmr-client.ts [app-client] (ecmascript, async loader)
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.js">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en">
+                          <body
+-                           className="antigravity-scroll-lock"
+                          >
+                  ...
+ 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3439:25)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at emitPendingHydrationWarnings (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3438:13)
+    at completeWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6885:102)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:131)
+    at completeUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9622:23)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9557:28)
+    at workLoopConcurrentByScheduler (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9551:58)
+    at renderRootConcurrent (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9534:71)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:150)
+    at performWorkOnRootViaSchedulerTask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3439:25)
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.js">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en">
+                          <body
+-                           className="antigravity-scroll-lock"
+                          >
+                  ...
+ 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3439:25)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at emitPendingHydrationWarnings (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3438:13)
+    at completeWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6885:102)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:131)
+    at completeUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9622:23)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9557:28)
+    at workLoopConcurrentByScheduler (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9551:58)
+    at renderRootConcurrent (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9534:71)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:150)
+    at performWorkOnRootViaSchedulerTask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:3439:25)
+[browser] Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Image with src "/logo.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js 
+    at handleErrors (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13828:21)
+    at processMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13891:21)
+    at WebSocket.handleMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13335:52) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13828:21)
+⨯ ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  [90m1084 |[0m                               onChange={(event) =>
+  [90m1085 |[0m                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+[31m[1m>[0m [90m1086 |[0m                 </div>
+  [90m     |[0m                  [31m[1m^^^^^[0m
+  [90m1087 |[0m
+  [90m1088 |[0m                 <div style={{ padding: [32m'24px 0 0'[0m, borderTop: [32m'1px solid var(--line)'[0m }}>
+  [90m1089 |[0m                   <h3 className=[32m"sg-panel-title"[0m style={{ fontSize: [35m18[0m, marginBottom: [35m20[0m...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+[browser] ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js 
+    at handleErrors (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13828:21)
+    at processMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13891:21)
+    at WebSocket.handleMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13335:52) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13828:21)
+⨯ ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  [90m1084 |[0m                               onChange={(event) =>
+  [90m1085 |[0m                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+[31m[1m>[0m [90m1086 |[0m                 </div>
+  [90m     |[0m                  [31m[1m^^^^^[0m
+  [90m1087 |[0m
+  [90m1088 |[0m                 <div style={{ padding: [32m'24px 0 0'[0m, borderTop: [32m'1px solid var(--line)'[0m }}>
+  [90m1089 |[0m                   <h3 className=[32m"sg-panel-title"[0m style={{ fontSize: [35m18[0m, marginBottom: [35m20[0m...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+[browser] ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js 
+    at handleErrors (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13828:21)
+    at processMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13891:21)
+    at WebSocket.handleMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13335:52) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13828:21)
+⨯ ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  [90m1084 |[0m                               onChange={(event) =>
+  [90m1085 |[0m                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+[31m[1m>[0m [90m1086 |[0m                 </div>
+  [90m     |[0m                  [31m[1m^^^^^[0m
+  [90m1087 |[0m
+  [90m1088 |[0m                 <div style={{ padding: [32m'24px 0 0'[0m, borderTop: [32m'1px solid var(--line)'[0m }}>
+  [90m1089 |[0m                   <h3 className=[32m"sg-panel-title"[0m style={{ fontSize: [35m18[0m, marginBottom: [35m20[0m...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+⨯ ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  [90m1084 |[0m                               onChange={(event) =>
+  [90m1085 |[0m                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+[31m[1m>[0m [90m1086 |[0m                 </div>
+  [90m     |[0m                  [31m[1m^^^^^[0m
+  [90m1087 |[0m
+  [90m1088 |[0m                 <div style={{ padding: [32m'24px 0 0'[0m, borderTop: [32m'1px solid var(--line)'[0m }}>
+  [90m1089 |[0m                   <h3 className=[32m"sg-panel-title"[0m style={{ fontSize: [35m18[0m, marginBottom: [35m20[0m...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+⨯ ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  [90m1084 |[0m                               onChange={(event) =>
+  [90m1085 |[0m                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+[31m[1m>[0m [90m1086 |[0m                 </div>
+  [90m     |[0m                  [31m[1m^^^^^[0m
+  [90m1087 |[0m
+  [90m1088 |[0m                 <div style={{ padding: [32m'24px 0 0'[0m, borderTop: [32m'1px solid var(--line)'[0m }}>
+  [90m1089 |[0m                   <h3 className=[32m"sg-panel-title"[0m style={{ fontSize: [35m18[0m, marginBottom: [35m20[0m...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+[browser] Uncaught Error: ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+    at <unknown> (Error: ./components/spendguard-app.js:1086:18)
+    at <unknown> (Error: (./components/spendguard-app.js:1086:18)
+[browser] ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js 
+    at handleErrors (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2773:21)
+    at processMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2834:28)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2679:13)
+    at WebSocket.handleMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2324:17) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2773:21)
+[browser] ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js 
+    at handleErrors (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2773:21)
+    at processMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2834:28)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2679:13)
+    at WebSocket.handleMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2324:17) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2773:21)
+[browser] Uncaught Error: ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js
+
+
+    at <unknown> (Error: ./components/spendguard-app.js:1086:18)
+    at <unknown> (Error: (./components/spendguard-app.js:1086:18)
+[browser] ./components/spendguard-app.js:1086:18
+Unterminated regexp literal
+  1084 |                               onChange={(event) =>
+  1085 |                                 setPaymentForm((current) => ({ ...current, subscriptionI...
+> 1086 |                 </div>
+       |                  ^^^^^
+  1087 |
+  1088 |                 <div style={{ padding: '24px 0 0', borderTop: '1px solid var(--line)' }}>
+  1089 |                   <h3 className="sg-panel-title" style={{ fontSize: 18, marginBottom: 20...
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./components/spendguard-app.js
+    ./app/page.js 
+    at handleErrors (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2773:21)
+    at processMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2834:28)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2679:13)
+    at WebSocket.handleMessage (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2324:17) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2773:21)
+[browser] Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Encountered two children with the same key, `analysis`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at warnOnInvalidKey (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4103:21)
+    at reconcileChildrenArray (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4129:160)
+    at reconcileChildFibersImpl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4236:51)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4261:39)
+    at reconcileChildren (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5898:51)
+    at beginWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6758:1573)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performSyncWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10179:316)
+    at processRootScheduleInMicrotask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10200:106)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10274:158) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Encountered two children with the same key, `analysis`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at warnOnInvalidKey (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4103:21)
+    at reconcileChildrenArray (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4129:160)
+    at reconcileChildFibersImpl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4236:51)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4261:39)
+    at reconcileChildren (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5898:51)
+    at beginWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6758:1573)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performSyncWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10179:316)
+    at processRootScheduleInMicrotask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10200:106)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10274:158) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Encountered two children with the same key, `analysis`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at warnOnInvalidKey (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4103:21)
+    at reconcileChildrenArray (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4133:225)
+    at reconcileChildFibersImpl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4236:51)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4261:39)
+    at reconcileChildren (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5898:119)
+    at beginWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6758:1573)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performSyncWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10179:316)
+    at flushSyncWork$1 (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9230:86)
+    at Object.scheduleRefresh (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:299:13)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:391:33)
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:384:38)
+    at applyUpdate (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:878:31)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:886:13) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+[browser] Encountered two children with the same key, `analysis`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at warnOnInvalidKey (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4103:21)
+    at reconcileChildrenArray (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4129:160)
+    at reconcileChildFibersImpl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4236:51)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4261:39)
+    at reconcileChildren (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5898:51)
+    at beginWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6758:1573)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performWorkOnRootViaSchedulerTask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+[browser] Encountered two children with the same key, `analysis`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at warnOnInvalidKey (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4103:21)
+    at reconcileChildrenArray (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4120:29)
+    at reconcileChildFibersImpl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4236:51)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4261:39)
+    at reconcileChildren (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5898:119)
+    at beginWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6758:1573)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performWorkOnRootViaSchedulerTask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+[browser] Encountered two children with the same key, `analysis`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at warnOnInvalidKey (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4103:21)
+    at reconcileChildrenArray (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4129:160)
+    at reconcileChildFibersImpl (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4236:51)
+    at <unknown> (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4261:39)
+    at reconcileChildren (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5898:51)
+    at beginWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6758:1573)
+    at runWithFiberInDEV (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performWorkOnRootViaSchedulerTask (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64) (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4104:33)
+[browser] Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] Image with src "/logo.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/T14s/Desktop/spend guard/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)

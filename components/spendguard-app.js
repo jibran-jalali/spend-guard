@@ -56,7 +56,22 @@ const navItems = [
   { id: "settings", label: "Settings", icon: Settings2 }
 ];
 
-const categoryAccent = ["#16a34a", "#f59e0b", "#2563eb", "#ef4444"];
+const categoryAccent = [
+  "#16a34a", // green  – Engineering
+  "#2563eb", // blue   – Finance
+  "#f59e0b", // amber  – Marketing / Sales
+  "#ef4444", // red    – Operations
+  "#8b5cf6", // violet – Support
+  "#ec4899", // pink   – HR
+  "#06b6d4", // cyan   – Data Science
+  "#eab308", // yellow – Executive
+  "#f97316", // orange – Legal
+  "#10b981", // emerald – Design
+  "#6366f1", // indigo – Product
+  "#84cc16", // lime   – DevOps
+  "#a855f7", // purple – Recruiting
+  "#14b8a6", // teal   – IT
+];
 const quickActions = [
   {
     id: "subscriptions",
@@ -64,14 +79,14 @@ const quickActions = [
     detail: "Contracts, owners, and renewals"
   },
   {
-    id: "reports",
-    title: "Open reports",
-    detail: "Spend by team and category"
-  },
-  {
     id: "ai",
     title: "Run AI review",
     detail: "Waste, overlap, and savings"
+  },
+  {
+    id: "reports",
+    title: "Open reports",
+    detail: "Spend by team and category"
   },
   {
     id: "settings",
@@ -503,8 +518,8 @@ export default function SpendGuardApp() {
     : null;
   const selectedSubscriptionPayments = selectedSubscription
     ? workspace.payments
-        .filter((payment) => payment.subscriptionId === selectedSubscription.id)
-        .sort((left, right) => new Date(right.dueDate).getTime() - new Date(left.dueDate).getTime())
+      .filter((payment) => payment.subscriptionId === selectedSubscription.id)
+      .sort((left, right) => new Date(right.dueDate).getTime() - new Date(left.dueDate).getTime())
     : [];
 
   return (
@@ -747,7 +762,7 @@ export default function SpendGuardApp() {
 
                   <div className="sg-quick-grid">
                     {quickActions.map((action) => (
-                      <button className="sg-quick-card" type="button" key={action.id} onClick={() => setActiveView(action.id)}>
+                      <button className="sg-quick-card" type="button" key={action.title} onClick={() => setActiveView(action.id)}>
                         <div>
                           <h4>{action.title}</h4>
                           <p>{action.detail}</p>
@@ -929,112 +944,151 @@ export default function SpendGuardApp() {
               </motion.section>
             ) : null}
 
-            {activeView === "reports" ? (
-              <motion.section
-                className="sg-panel"
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="sg-panel-header">
-                  <div>
-                    <h2 className="sg-panel-title">Reports</h2>
-                    <p className="sg-panel-copy">Spend by team, category, and month.</p>
-                  </div>
-                </div>
 
-                <div className="sg-report-grid">
-                  <div className="sg-surface sg-panel">
-                    <h3 className="sg-panel-title" style={{ fontSize: 18 }}>Department spend</h3>
-                    <div className="sg-chart-shell">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={workspace.reports.departmentSpend}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(16, 21, 18, 0.08)" />
-                          <XAxis dataKey="name" tickLine={false} axisLine={false} />
-                          <YAxis tickLine={false} axisLine={false} />
-                          <Tooltip formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
-                          <Bar dataKey="total" radius={[8, 8, 0, 0]}>
-                            {workspace.reports.departmentSpend.map((entry, index) => (
-                              <Cell key={entry.name} fill={categoryAccent[index % categoryAccent.length]} />
-                            ))}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
+            {activeView === "reports" ? (() => {
+              // Create enhanced graph data on the fly
+              const healthDistribution = [
+                { name: 'Healthy', value: 0 },
+                { name: 'Underused', value: 0 },
+                { name: 'Duplicate candidates', value: 0 },
+                { name: 'Unused', value: 0 }
+              ];
 
-                  <div className="sg-surface sg-panel">
-                    <h3 className="sg-panel-title" style={{ fontSize: 18 }}>Category mix</h3>
-                    <div className="sg-chart-shell">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Tooltip formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
-                          <Pie
-                            data={workspace.reports.categorySpend}
-                            dataKey="total"
-                            nameKey="name"
-                            innerRadius={70}
-                            outerRadius={110}
-                            paddingAngle={3}
-                          >
-                            {workspace.reports.categorySpend.map((entry, index) => (
-                              <Cell key={entry.name} fill={categoryAccent[index % categoryAccent.length]} />
-                            ))}
-                          </Pie>
-                        </PieChart>
-                      </ResponsiveContainer>
+              workspace.subscriptions.forEach(sub => {
+                if (sub.usageStatus === 'healthy') healthDistribution[0].value += sub.cost;
+                else if (sub.usageStatus === 'underused') healthDistribution[1].value += sub.cost;
+                else if (sub.usageStatus === 'duplicate_candidate') healthDistribution[2].value += sub.cost;
+                else if (sub.usageStatus === 'unused') healthDistribution[3].value += sub.cost;
+              });
+
+              const topCostly = [...workspace.subscriptions]
+                .sort((a, b) => b.cost - a.cost)
+                .slice(0, 5)
+                .map(sub => ({ name: sub.toolName.length > 20 ? sub.toolName.substring(0, 18) + '...' : sub.toolName, total: sub.cost }));
+
+              return (
+                <motion.section
+                  className="sg-panel"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="sg-panel-header">
+                    <div>
+                      <h2 className="sg-panel-title">Reports & Analytics</h2>
+                      <p className="sg-panel-copy">Detailed breakdown of organizational spend.</p>
                     </div>
+                    <button className="sg-button" type="button" onClick={exportSubscriptionsCsv}>
+                      <FileDown size={18} /> Export Data
+                    </button>
                   </div>
 
-                  <div className="sg-surface sg-panel">
-                    <h3 className="sg-panel-title" style={{ fontSize: 18 }}>Payment trend</h3>
-                    <div className="sg-chart-shell">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={workspace.reports.monthlyTrend}>
-                          <defs>
-                            <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#16a34a" stopOpacity={0.4} />
-                              <stop offset="95%" stopColor="#16a34a" stopOpacity={0.02} />
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(16, 21, 18, 0.08)" />
-                          <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                          <YAxis tickLine={false} axisLine={false} />
-                          <Tooltip formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
-                          <Area type="monotone" dataKey="total" stroke="#16a34a" fill="url(#spendGradient)" strokeWidth={3} />
-                        </AreaChart>
-                      </ResponsiveContainer>
+                  <div className="sg-report-grid">
+                    <div className="sg-surface sg-panel" style={{ gridColumn: '1 / -1' }}>
+                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Payment pipeline (Next 12 Months)</h4>
+                      <div className="sg-chart-shell" style={{ height: 280 }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={workspace.reports.monthlyTrend}>
+                            <defs>
+                              <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#2563eb" stopOpacity={0.6} />
+                                <stop offset="95%" stopColor="#2563eb" stopOpacity={0.02} />
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(16, 21, 18, 0.08)" />
+                            <XAxis dataKey="month" tickLine={false} axisLine={false} />
+                            <YAxis tickLine={false} axisLine={false} tickFormatter={(value) => `$${value / 1000}k`} />
+                            <Tooltip formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
+                            <Area type="monotone" dataKey="total" stroke="#2563eb" fill="url(#spendGradient)" strokeWidth={3} />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="sg-surface sg-panel">
-                    <h3 className="sg-panel-title" style={{ fontSize: 18 }}>Duplicate and renewal watch</h3>
-                    <div className="sg-list">
-                      {workspace.reports.duplicates.map((group) => (
-                        <div className="sg-list-item" key={group[0].toolName}>
-                          <div className="sg-list-copy">
-                            <strong>{group[0].toolName}</strong>
-                            <span>{group.map((entry) => entry.department).join(", ")}</span>
-                          </div>
-                          <span className="sg-status tone-blue">duplicate</span>
-                        </div>
-                      ))}
-                      {workspace.reports.renewals.slice(0, 3).map((renewal) => (
-                        <div className="sg-list-item" key={renewal.id}>
-                          <div className="sg-list-copy">
-                            <strong>{renewal.toolName}</strong>
-                            <span>
-                              {renewal.department} - {formatDate(renewal.renewalDate)}
-                            </span>
-                          </div>
-                          <span className="sg-status tone-orange">renewal</span>
-                        </div>
-                      ))}
+                    <div className="sg-surface sg-panel">
+                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Department consumption</h4>
+                      <div className="sg-chart-shell">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={workspace.reports.departmentSpend} layout="vertical" margin={{ top: 0, right: 0, left: 30, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(16, 21, 18, 0.08)" />
+                            <XAxis type="number" hide />
+                            <YAxis dataKey="name" type="category" tickLine={false} axisLine={false} width={80} style={{ fontSize: 11 }} />
+                            <Tooltip cursor={{ fill: 'transparent' }} formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
+                            <Bar dataKey="total" radius={[0, 4, 4, 0]} barSize={20}>
+                              {workspace.reports.departmentSpend.map((entry, index) => (
+                                <Cell key={entry.name} fill={categoryAccent[index % categoryAccent.length]} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+
+                    <div className="sg-surface sg-panel">
+                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Top expensive tools</h4>
+                      <div className="sg-chart-shell">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={topCostly}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(16, 21, 18, 0.08)" />
+                            <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
+                            <YAxis tickLine={false} axisLine={false} width={30} tick={{ fontSize: 11 }} tickFormatter={(val) => `${val / 1000}k`} />
+                            <Tooltip cursor={{ fill: 'transparent' }} formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
+                            <Bar dataKey="total" radius={[4, 4, 0, 0]} fill="#f59e0b" barSize={32} />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+
+                    <div className="sg-surface sg-panel">
+                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Category distribution</h4>
+                      <div className="sg-chart-shell">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Tooltip formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
+                            <Pie
+                              data={workspace.reports.categorySpend}
+                              dataKey="total"
+                              nameKey="name"
+                              innerRadius={65}
+                              outerRadius={95}
+                              paddingAngle={3}
+                            >
+                              {workspace.reports.categorySpend.map((entry, index) => (
+                                <Cell key={entry.name} fill={categoryAccent[index % categoryAccent.length]} />
+                              ))}
+                            </Pie>
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+
+                    <div className="sg-surface sg-panel">
+                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Efficiency risk (Spend by Usage)</h4>
+                      <div className="sg-chart-shell">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Tooltip formatter={(value) => formatCurrency(Number(value), workspace.business.currency)} />
+                            <Pie
+                              data={healthDistribution.filter(x => x.value > 0)}
+                              dataKey="value"
+                              nameKey="name"
+                              innerRadius={0}
+                              outerRadius={95}
+                              paddingAngle={1}
+                            >
+                              {healthDistribution.filter(x => x.value > 0).map((entry, index) => {
+                                const colorMap = { 'Healthy': '#16a34a', 'Underused': '#f59e0b', 'Duplicate candidates': '#ef4444', 'Unused': '#64748b' };
+                                return <Cell key={entry.name} fill={colorMap[entry.name]} />
+                              })}
+                            </Pie>
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.section>
-            ) : null}
+                </motion.section>
+              );
+            })() : null}
 
             {activeView === "ai" ? (
               <motion.section
@@ -1045,60 +1099,123 @@ export default function SpendGuardApp() {
               >
                 <div className="sg-panel-header">
                   <div>
-                    <h2 className="sg-panel-title">AI center</h2>
-                    <p className="sg-panel-copy">Fresh read on waste, overlap, and renewals.</p>
+                    <h2 className="sg-panel-title">AI Center</h2>
+                    <p className="sg-panel-copy" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Sparkles size={14} style={{ color: 'var(--green)' }} />
+                      Intelligent recommendations, waste detection, and savings opportunities.
+                    </p>
                   </div>
-                  <button className="sg-button" type="button" onClick={() => workspaceState.runAnalysis()}>
-                    <Sparkles size={18} /> Analyze now
-                  </button>
+                  <motion.button
+                    className="sg-button"
+                    type="button"
+                    onClick={() => workspaceState.runAnalysis()}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <motion.div
+                      animate={{ rotate: [0, 15, -10, 0] }}
+                      transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
+                      style={{ display: 'inline-flex', marginRight: 6 }}
+                    >
+                      <Sparkles size={18} />
+                    </motion.div>
+                    Analyze workspace
+                  </motion.button>
                 </div>
 
                 {latestAnalysis ? (
-                  <div className="sg-analysis-grid">
-                    <div className="sg-ai-card">
-                      <h4>{latestAnalysis.headline}</h4>
+                  <motion.div
+                    className="sg-analysis-grid"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
+                    }}
+                  >
+                    <motion.div
+                      className="sg-ai-card"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0.95, y: 15 },
+                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
+                      }}
+                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(22, 163, 74, 0.08)" }}
+                    >
+                      <h4><Sparkles size={16} style={{ display: "inline-block", marginRight: 6, color: "var(--green)" }} /> {latestAnalysis.headline}</h4>
                       <p className="sg-panel-copy">{latestAnalysis.summary}</p>
                       <p className="sg-note">
                         Generated {formatDate(latestAnalysis.generatedAt.slice(0, 10))}
                         {latestAnalysis.warning ? ` - ${latestAnalysis.warning}` : ""}
                       </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="sg-ai-card">
+                    <motion.div
+                      className="sg-ai-card"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0.95, y: 15 },
+                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
+                      }}
+                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(22, 163, 74, 0.08)" }}
+                    >
                       <h4>Savings opportunities</h4>
                       <ul>
                         {latestAnalysis.savingsOpportunities?.map((item) => (
-                          <li key={item.title}>
-                            <strong>{item.title}:</strong> {item.detail} ({item.estimatedSavings})
-                          </li>
+                          <motion.li key={item.title} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.25, duration: 0.4 }}>
+                            <strong>{item.title}:</strong> {item.detail} <span style={{ color: "var(--green)", fontWeight: 600 }}>({item.estimatedSavings})</span>
+                          </motion.li>
                         ))}
                       </ul>
-                    </div>
+                    </motion.div>
 
-                    <div className="sg-ai-card">
+                    <motion.div
+                      className="sg-ai-card"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0.95, y: 15 },
+                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
+                      }}
+                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(245, 158, 11, 0.08)" }}
+                    >
                       <h4>Renewal risks</h4>
                       <ul>
                         {latestAnalysis.renewalRisks?.map((risk) => (
-                          <li key={risk.title}>
-                            <strong>{risk.title}:</strong> {risk.detail} ({risk.dueDate})
-                          </li>
+                          <motion.li key={risk.title} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.35, duration: 0.4 }}>
+                            <strong>{risk.title}:</strong> {risk.detail} <span style={{ color: "var(--orange)" }}>({risk.dueDate})</span>
+                          </motion.li>
                         ))}
                       </ul>
-                    </div>
+                    </motion.div>
 
-                    <div className="sg-ai-card">
+                    <motion.div
+                      className="sg-ai-card"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0.95, y: 15 },
+                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
+                      }}
+                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.08)" }}
+                    >
                       <h4>Recommended actions</h4>
                       <ul>
                         {latestAnalysis.recommendedActions?.map((action) => (
-                          <li key={action}>{action}</li>
+                          <motion.li key={action} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.45, duration: 0.4 }}>
+                            {action}
+                          </motion.li>
                         ))}
                       </ul>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 ) : (
-                  <div className="sg-empty">
-                    Run the first AI analysis.
-                  </div>
+                  <motion.div
+                    className="sg-empty"
+                    style={{ marginBottom: 40 }}
+                    initial={{ opacity: 0, scale: 0.92, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  >
+                    <motion.div animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
+                      <Bot size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
+                    </motion.div>
+                    Run an AI analysis to calculate insights against your latest financial data.
+                  </motion.div>
                 )}
               </motion.section>
             ) : null}

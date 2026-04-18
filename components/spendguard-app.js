@@ -452,11 +452,11 @@ export default function SpendGuardApp() {
             >
               <div className="sg-auth-brand-area">
                 <Image
-                  src="/favicon.png"
+                  src="/logo.png"
                   alt="SpendGuard"
-                  width={96}
-                  height={96}
-                  className="sg-auth-mark"
+                  width={320}
+                  height={160}
+                  className="sg-auth-logo"
                   priority
                 />
               </div>

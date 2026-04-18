@@ -253,13 +253,12 @@ button {
 }
 
 .sg-auth-brand-area {
-  margin-bottom: 40px;
+  margin-bottom: 16px;
 }
 
-.sg-auth-mark {
+.sg-auth-logo {
   object-fit: contain;
   margin: 0 auto;
-  filter: drop-shadow(0 10px 20px rgba(21, 163, 74, 0.1));
 }
 
 /* Vertical align fix */

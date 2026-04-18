@@ -46,6 +46,7 @@ import {
   formatDate,
   statusToneMap
 } from "@/lib/workspace";
+import { DEFAULT_VENDOR_CATALOG } from "@/lib/default-vendors";
 import { VendorMark } from "@/components/vendor-mark";
 
 const navItems = [
@@ -94,6 +95,102 @@ const quickActions = [
     detail: "Payments, teams, and status"
   }
 ];
+
+function LoadingScreen() {
+  const [index, setIndex] = useState(0);
+  const [statusText, setStatusText] = useState("Initializing...");
+
+  const statusMessages = [
+    "Syncing contract intelligence...",
+    "Decrypting billing cadences...",
+    "Scanning for savings overlap...",
+    "Organizing vendor operations...",
+    "Optimizing renewal pipelines...",
+    "Preparing operator dashboard..."
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex(Math.floor(Math.random() * DEFAULT_VENDOR_CATALOG.length));
+      setStatusText(statusMessages[Math.floor(Math.random() * statusMessages.length)]);
+    }, 1400);
+    return () => clearInterval(timer);
+  }, []);
+
+  const vendor = DEFAULT_VENDOR_CATALOG[index];
+
+  return (
+    <main className="sg-page-loader">
+      <div className="sg-loader-content">
+        <div className="sg-loader-visual">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={vendor.id}
+              initial={{ opacity: 0, scale: 0.6, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.4, y: -15 }}
+              transition={{ duration: 0.5, ease: "circOut" }}
+              className="sg-loader-logo-wrap"
+            >
+              <VendorMark logoKey={vendor.logoKey} domain={vendor.website} />
+            </motion.div>
+          </AnimatePresence>
+          <div className="sg-loader-glow" />
+        </div>
+        <div className="sg-loader-text">
+          <motion.div
+            key={statusText}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            className="sg-loader-status"
+          >
+            {statusText}
+          </motion.div>
+          <p>Analyzing <strong>{vendor.name}</strong> footprint</p>
+        </div>
+        <div className="sg-loader-track">
+          <motion.div
+            className="sg-loader-progress"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 5, ease: "easeInOut" }}
+          />
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function LogoShuffle() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex(Math.floor(Math.random() * DEFAULT_VENDOR_CATALOG.length));
+    }, 1800);
+    return () => clearInterval(timer);
+  }, []);
+
+  const vendor = DEFAULT_VENDOR_CATALOG[index];
+
+  return (
+    <div className="sg-landing-shuffle">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={vendor.id}
+          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 1.1, y: -10 }}
+          transition={{ duration: 0.5 }}
+          className="sg-landing-logo-wrap"
+        >
+          <VendorMark logoKey={vendor.logoKey} domain={vendor.website} />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const emptySubscriptionForm = {
   toolName: "",
@@ -147,6 +244,16 @@ export default function SpendGuardApp() {
   const [departmentName, setDepartmentName] = useState("");
   const [workspaceName, setWorkspaceName] = useState("");
   const [customVendorName, setCustomVendorName] = useState("");
+  const [minLoadingDone, setMinLoadingDone] = useState(false);
+
+  useEffect(() => {
+    if (auth.mode !== "guest" && !auth.loading) {
+      const timer = setTimeout(() => setMinLoadingDone(true), 5000);
+      return () => clearTimeout(timer);
+    } else if (auth.mode === "guest") {
+      setMinLoadingDone(false);
+    }
+  }, [auth.mode, auth.loading]);
 
   const workspace = workspaceState.workspace;
 
@@ -316,76 +423,43 @@ export default function SpendGuardApp() {
     downloadCsv("spendguard-payments.csv", rows);
   }
 
-  if (auth.loading || workspaceState.loading || (auth.mode !== "guest" && !workspace)) {
-    return (
-      <main className="sg-page">
-        <div className="sg-app-shell">
-          <div className="sg-panel">
-            <strong>Loading SpendGuard</strong>
-            <p className="sg-panel-copy">Preparing the workspace.</p>
-          </div>
-        </div>
-      </main>
-    );
+  if (auth.loading || workspaceState.loading || (auth.mode !== "guest" && (!workspace || !minLoadingDone))) {
+    return <LoadingScreen />;
   }
 
   if (auth.mode === "guest") {
     return (
       <main className="sg-page">
         <div className="sg-auth-shell">
-          <motion.section
-            className="sg-brand-panel"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+          <motion.div
+            className="sg-landing-hero"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <Image src="/logo.png" alt="SpendGuard" width={220} height={110} className="sg-brand-logo" />
-            <div className="sg-brand-hero">
-              <span className="sg-brand-kicker">
-                <ShieldCheck size={16} /> Subscription operations
-              </span>
-              <h1 className="sg-brand-title">Control every renewal before it turns into a finance problem.</h1>
-              <p className="sg-brand-copy">
-                SpendGuard keeps vendors, owners, billing cadence, payment history, and savings review in one
-                operating layer.
-              </p>
-              <div className="sg-brand-points">
-                <div className="sg-brand-point">
-                  <CalendarClock size={18} />
-                  <div>
-                    <strong>Renewal visibility</strong>
-                    <span>See upcoming contracts by owner, vendor, and billing date.</span>
-                  </div>
-                </div>
-                <div className="sg-brand-point">
-                  <CreditCard size={18} />
-                  <div>
-                    <strong>Payment context</strong>
-                    <span>Keep recurring charges and references attached to the right subscription.</span>
-                  </div>
-                </div>
-                <div className="sg-brand-point">
-                  <Sparkles size={18} />
-                  <div>
-                    <strong>AI review</strong>
-                    <span>Spot overlap, underused tools, and savings opportunities before renewal.</span>
-                  </div>
-                </div>
-              </div>
-              <div className="sg-brand-signal">
-                <span>Workspace-scoped access</span>
-                <span>Operational reporting</span>
-                <span>Vendor oversight</span>
-              </div>
-            </div>
-          </motion.section>
+            <LogoShuffle />
+            <h2 className="sg-hero-quote">
+              Control every renewal before it turns into a <span>finance problem</span>.
+            </h2>
+          </motion.div>
 
-          <motion.section
-            className="sg-auth-panel"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08, ease: "easeOut" }}
-          >
+          <div style={{ position: "relative", width: "100%", maxWidth: "520px" }}>
+            <motion.section
+              className="sg-auth-panel"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <div className="sg-auth-brand-area">
+                <Image
+                  src="/favicon.png"
+                  alt="SpendGuard"
+                  width={96}
+                  height={96}
+                  className="sg-auth-mark"
+                  priority
+                />
+              </div>
             <div className="sg-auth-tabs" role="tablist" aria-label="Authentication tabs">
               {[
                 { id: "login", label: "Sign in" },
@@ -485,7 +559,8 @@ export default function SpendGuardApp() {
             </p>
           </motion.section>
         </div>
-      </main>
+      </div>
+    </main>
     );
   }
 
@@ -579,14 +654,25 @@ export default function SpendGuardApp() {
             <nav className="sg-nav" aria-label="Primary">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                const isActive = activeView === item.id;
                 return (
                   <button
                     key={item.id}
                     type="button"
-                    className={activeView === item.id ? "is-active" : ""}
+                    className={isActive ? "is-active" : ""}
                     onClick={() => setActiveView(item.id)}
+                    style={{ position: "relative" }}
                   >
-                    <Icon size={18} /> {item.label}
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-glow"
+                        className="sg-nav-indicator"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    <Icon size={18} style={{ position: "relative", zIndex: 1 }} />
+                    <span style={{ position: "relative", zIndex: 1 }}>{item.label}</span>
                   </button>
                 );
               })}
@@ -641,7 +727,15 @@ export default function SpendGuardApp() {
                     </div>
                   </div>
 
-                  <div className="sg-kpi-grid">
+                  <motion.div
+                    className="sg-kpi-grid"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+                    }}
+                  >
                     {[
                       {
                         label: "Monthly run-rate",
@@ -673,9 +767,10 @@ export default function SpendGuardApp() {
                         <motion.div
                           key={item.label}
                           className="sg-kpi-card"
-                          initial={{ opacity: 0, y: 18 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.35 }}
+                          variants={{
+                            hidden: { opacity: 0, y: 10 },
+                            visible: { opacity: 1, y: 0 }
+                          }}
                         >
                           <div className="sg-kpi-top">
                             <span className="sg-kpi-label">{item.label}</span>
@@ -686,7 +781,7 @@ export default function SpendGuardApp() {
                         </motion.div>
                       );
                     })}
-                  </div>
+                  </motion.div>
                 </motion.section>
 
                 <div className="sg-content-grid">
@@ -878,6 +973,7 @@ export default function SpendGuardApp() {
                             <VendorMark
                               logoKey={vendorById.get(subscription.vendorId)?.logoKey}
                               category={categoryById.get(subscription.categoryId)?.name.toLowerCase()}
+                              domain={vendorById.get(subscription.vendorId)?.website}
                             />
                             <div>
                               <div className="sg-subscription-name">{subscription.toolName}</div>
@@ -1698,11 +1794,18 @@ export default function SpendGuardApp() {
               onClick={(event) => event.stopPropagation()}
             >
               <div className="sg-drawer-head">
-                <div>
-                  <h3>{selectedSubscription.toolName}</h3>
-                  <p className="sg-panel-copy">
-                    {vendorById.get(selectedSubscription.vendorId)?.name} - {selectedSubscription.planName}
-                  </p>
+                <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                  <VendorMark
+                    logoKey={vendorById.get(selectedSubscription.vendorId)?.logoKey}
+                    category={categoryById.get(selectedSubscription.categoryId)?.name.toLowerCase()}
+                    domain={vendorById.get(selectedSubscription.vendorId)?.website}
+                  />
+                  <div>
+                    <h3 style={{ margin: 0 }}>{selectedSubscription.toolName}</h3>
+                    <p className="sg-panel-copy" style={{ margin: "4px 0 0" }}>
+                      {vendorById.get(selectedSubscription.vendorId)?.name} - {selectedSubscription.planName}
+                    </p>
+                  </div>
                 </div>
                 <button className="sg-icon-button" type="button" onClick={() => setDrawerSubscription(null)}>
                   <ArrowRight size={18} />

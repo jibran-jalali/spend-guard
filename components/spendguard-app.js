@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -20,8 +20,76 @@ import {
   Settings2,
   ShieldCheck,
   Sparkles,
-  Trash2
+  Trash2,
+  Activity,
+  Box,
+  CheckSquare,
+  Compass,
+  Cpu,
+  Database,
+  DollarSign,
+  Globe,
+  Grid,
+  LifeBuoy,
+  Mail,
+  MessageSquare,
+  MonitorPlay,
+  RotateCw,
+  Settings,
+  Shield,
+  Snowflake,
+  Users,
+  Zap,
+  Hash,
+  Layers,
+  Workflow,
+  Coffee,
+  Lightbulb,
+  Headphones,
+  Send,
+  User,
+  HardDrive,
+  PenTool,
+  BookOpen
 } from "lucide-react";
+
+const CATEGORY_ICON_MAP = {
+  infrastructure: HardDrive,
+  communication: MessageSquare,
+  marketing: Globe,
+  sales: Zap,
+  productivity: CheckSquare,
+  hr: Users,
+  support: LifeBuoy,
+  finance: DollarSign,
+  operations: Settings,
+  engineering: Cpu,
+  security: Shield,
+  legal: Compass,
+  analytics: Activity,
+  development: Layers,
+  social: Coffee,
+  creative: PenTool,
+  learning: BookOpen
+};
+
+const DEPARTMENT_ICON_MAP = {
+  engineering: Cpu,
+  finance: DollarSign,
+  marketing: Globe,
+  sales: Zap,
+  operations: Settings,
+  support: LifeBuoy,
+  hr: Users,
+  legal: Shield,
+  executive: Building2,
+  product: Grid,
+  it: Database,
+  design: Box,
+  recruiting: Users,
+  devops: RotateCw,
+  data: Activity
+};
 import {
   Area,
   AreaChart,
@@ -54,6 +122,7 @@ const navItems = [
   { id: "subscriptions", label: "Subscriptions", icon: CreditCard },
   { id: "reports", label: "Reports", icon: FileDown },
   { id: "ai", label: "AI Center", icon: Bot },
+  { id: "insights", label: "Insights", icon: Sparkles },
   { id: "settings", label: "Settings", icon: Settings2 }
 ];
 
@@ -80,7 +149,7 @@ const quickActions = [
     detail: "Contracts, owners, and renewals"
   },
   {
-    id: "ai",
+    id: "insights",
     title: "Run AI review",
     detail: "Waste, overlap, and savings"
   },
@@ -192,6 +261,18 @@ function LogoShuffle() {
   );
 }
 
+function AssistantMark({ size = 32 }) {
+  return (
+    <Image
+      src="/favicon.png"
+      alt="SpendGuard AI"
+      width={size}
+      height={size}
+      className="sg-assistant-mark"
+    />
+  );
+}
+
 const emptySubscriptionForm = {
   toolName: "",
   vendorId: "",
@@ -231,6 +312,17 @@ export default function SpendGuardApp() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [drawerSubscription, setDrawerSubscription] = useState(null);
   const [isSubscriptionFormOpen, setIsSubscriptionFormOpen] = useState(false);
+  const [isVendorPickerOpen, setIsVendorPickerOpen] = useState(false);
+  const [isDeptPickerOpen, setIsDeptPickerOpen] = useState(false);
+  const [isCategoryPickerOpen, setIsCategoryPickerOpen] = useState(false);
+  const [vendorSearch, setVendorSearch] = useState("");
+  const [chatInput, setChatInput] = useState("");
+  const [isChatLoading, setIsChatLoading] = useState(false);
+  const chatThreadEndRef = useRef(null);
+  const [chatMessages, setChatMessages] = useState([
+    { role: "assistant", content: "I can review spend, renewals, duplicate tools, and underused subscriptions from this workspace. Ask me what to cut, what to renew, or where to focus next." }
+  ]);
+  const [customVendorName, setCustomVendorName] = useState("");
   const [editingSubscription, setEditingSubscription] = useState(null);
   const [subscriptionForm, setSubscriptionForm] = useState(emptySubscriptionForm);
   const [paymentForm, setPaymentForm] = useState(emptyPaymentForm);
@@ -243,8 +335,8 @@ export default function SpendGuardApp() {
   });
   const [departmentName, setDepartmentName] = useState("");
   const [workspaceName, setWorkspaceName] = useState("");
-  const [customVendorName, setCustomVendorName] = useState("");
   const [minLoadingDone, setMinLoadingDone] = useState(false);
+  const [subscriptionFormError, setSubscriptionFormError] = useState("");
 
   useEffect(() => {
     if (auth.mode !== "guest" && !auth.loading) {
@@ -262,6 +354,10 @@ export default function SpendGuardApp() {
       setWorkspaceName(workspace.business.name);
     }
   }, [workspace?.business?.name]);
+
+  useEffect(() => {
+    chatThreadEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [chatMessages, isChatLoading]);
 
   const filteredSubscriptions = useMemo(() => {
     if (!workspace) {
@@ -289,6 +385,7 @@ export default function SpendGuardApp() {
     setEditingSubscription(null);
     setIsSubscriptionFormOpen(true);
     setCustomVendorName("");
+    setSubscriptionFormError("");
     setSubscriptionForm({
       ...emptySubscriptionForm,
       departmentId: firstDepartment,
@@ -301,6 +398,7 @@ export default function SpendGuardApp() {
     setEditingSubscription(subscription.id);
     setIsSubscriptionFormOpen(true);
     setCustomVendorName("");
+    setSubscriptionFormError("");
     setSubscriptionForm({
       ...subscription
     });
@@ -332,14 +430,69 @@ export default function SpendGuardApp() {
 
   async function handleSaveSubscription(event) {
     event.preventDefault();
-    await workspaceState.upsertSubscription({
+    setSubscriptionFormError("");
+
+    if (!subscriptionForm.toolName.trim()) {
+      setSubscriptionFormError("Enter a tool name before saving this subscription.");
+      return;
+    }
+
+    if (!subscriptionForm.vendorId) {
+      setSubscriptionFormError("Select a vendor before saving this subscription.");
+      return;
+    }
+
+    if (subscriptionForm.vendorId === CUSTOM_VENDOR_ID && !customVendorName.trim()) {
+      setSubscriptionFormError("Enter a custom vendor name before saving this subscription.");
+      return;
+    }
+
+    if (!subscriptionForm.departmentId) {
+      setSubscriptionFormError("Select a department before saving this subscription.");
+      return;
+    }
+
+    if (!subscriptionForm.categoryId) {
+      setSubscriptionFormError("Select a category before saving this subscription.");
+      return;
+    }
+
+    if (!subscriptionForm.planName.trim()) {
+      setSubscriptionFormError("Enter a plan name before saving this subscription.");
+      return;
+    }
+
+    if (!Number.isFinite(Number(subscriptionForm.cost)) || Number(subscriptionForm.cost) < 0) {
+      setSubscriptionFormError("Enter a valid subscription cost before saving.");
+      return;
+    }
+
+    if (!subscriptionForm.renewalDate) {
+      setSubscriptionFormError("Choose the next renewal date before saving this subscription.");
+      return;
+    }
+
+    if (!Number.isFinite(Number(subscriptionForm.seats)) || Number(subscriptionForm.seats) < 0) {
+      setSubscriptionFormError("Enter a valid seat count before saving.");
+      return;
+    }
+
+    const saved = await workspaceState.upsertSubscription({
       ...subscriptionForm,
+      toolName: subscriptionForm.toolName.trim(),
       vendorId: subscriptionForm.vendorId === CUSTOM_VENDOR_ID ? "" : subscriptionForm.vendorId,
-      customVendorName: subscriptionForm.vendorId === CUSTOM_VENDOR_ID ? customVendorName : "",
+      customVendorName: subscriptionForm.vendorId === CUSTOM_VENDOR_ID ? customVendorName.trim() : "",
+      planName: subscriptionForm.planName.trim(),
+      nextBillingDate: subscriptionForm.renewalDate, // sync consolidated date
       id: editingSubscription || undefined,
       cost: Number(subscriptionForm.cost),
       seats: Number(subscriptionForm.seats)
     });
+
+    if (!saved) {
+      return;
+    }
+
     setEditingSubscription(null);
     setIsSubscriptionFormOpen(false);
     setSubscriptionForm(emptySubscriptionForm);
@@ -357,9 +510,51 @@ export default function SpendGuardApp() {
 
   async function handleSaveWorkspace(event) {
     event.preventDefault();
-    await workspaceState.updateBusiness({
-      name: workspaceName
-    });
+    const nextName = workspaceName.trim();
+
+    if (!nextName) {
+      return;
+    }
+
+    await workspaceState.updateBusiness({ name: nextName });
+    setWorkspaceName(nextName);
+  }
+
+  async function handleSendChat(event) {
+    if (event) event.preventDefault();
+    if (!chatInput.trim() || isChatLoading) return;
+
+    const userMessage = { role: "user", content: chatInput };
+    setChatMessages((prev) => [...prev, userMessage]);
+    setChatInput("");
+    setIsChatLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [...chatMessages, userMessage],
+          workspace
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setChatMessages((prev) => [...prev, data]);
+      } else {
+        setChatMessages((prev) => [...prev, { role: "assistant", content: data.message || "Sorry, I had trouble connecting to the brain." }]);
+      }
+    } catch (err) {
+      setChatMessages((prev) => [...prev, { role: "assistant", content: "Connection error. Please try again." }]);
+    } finally {
+      setIsChatLoading(false);
+    }
+  }
+
+  async function handleRunAnalysis() {
+    await workspaceState.runAnalysis();
+    setChatMessages(prev => [...prev, { role: "assistant", content: "I've completed my analysis of your workspace. You can see the updated insights in the cards below, or ask me specific questions about them!" }]);
   }
 
   function exportSubscriptionsCsv() {
@@ -690,7 +885,7 @@ export default function SpendGuardApp() {
                         color: "inherit"
                       }}
                     >
-                      <Icon size={18} />
+                      {item.id === "ai" ? <AssistantMark size={20} /> : <Icon size={18} />}
                     </motion.div>
                     <span style={{ position: "relative", zIndex: 1 }}>{item.label}</span>
                   </button>
@@ -1208,131 +1403,190 @@ export default function SpendGuardApp() {
 
             {activeView === "ai" ? (
               <motion.section
-                className="sg-panel"
+                className="sg-ai-layout"
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                <div className="sg-panel-header">
-                  <div>
-                    <h2 className="sg-panel-title">AI Center</h2>
-                    <p className="sg-panel-copy" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <Sparkles size={14} style={{ color: 'var(--green)' }} />
-                      Intelligent recommendations, waste detection, and savings opportunities.
-                    </p>
+                <div className="sg-ai-workspace is-chat-only">
+                  <div className="sg-ai-workspace-header">
+                    <div className="sg-chat-title">
+                      <div className="sg-chat-brand-mark">
+                        <AssistantMark size={34} />
+                      </div>
+                      <div>
+                        <span>SpendGuard AI</span>
+                        <h3>AI Center</h3>
+                      </div>
+                    </div>
+                    <div className="sg-ai-workspace-actions">
+                      <div className="sg-chat-status">
+                        <span />
+                        Workspace aware
+                      </div>
+                      <motion.button
+                        className="sg-button-secondary"
+                        type="button"
+                        onClick={handleRunAnalysis}
+                        disabled={workspaceState.busy}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        style={{ padding: '8px 16px', fontSize: 13 }}
+                      >
+                        <Sparkles size={14} style={{ marginRight: 6 }} />
+                        Analyze workspace
+                      </motion.button>
+                    </div>
                   </div>
-                  <motion.button
-                    className="sg-button"
-                    type="button"
-                    onClick={() => workspaceState.runAnalysis()}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    <motion.div
-                      animate={{ rotate: [0, 15, -10, 0] }}
-                      transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
-                      style={{ display: 'inline-flex', marginRight: 6 }}
-                    >
-                      <Sparkles size={18} />
-                    </motion.div>
-                    Analyze workspace
-                  </motion.button>
+
+                  <div className="sg-ai-workspace-body">
+                    <div className="sg-ai-chat-pane">
+                      <div className="sg-ai-pane-header">
+                        <div>
+                          <span>Chat</span>
+                          <h3>Ask follow-up questions</h3>
+                        </div>
+                        <MessageSquare size={18} />
+                      </div>
+
+                      <div className="sg-ai-chat-container">
+                        <div className="sg-chat-thread">
+                          {chatMessages.map((msg, idx) => (
+                            <div key={idx} className={`sg-chat-msg ${msg.role}`}>
+                              <div className="sg-chat-avatar">
+                                {msg.role === "assistant" ? <AssistantMark size={24} /> : <User size={16} />}
+                              </div>
+                              <div className="sg-chat-bubble">
+                                {msg.content}
+                              </div>
+                            </div>
+                          ))}
+                          {isChatLoading && (
+                            <div className="sg-chat-msg assistant">
+                              <div className="sg-chat-avatar"><AssistantMark size={24} /></div>
+                              <div className="sg-chat-bubble typing">
+                                <span />
+                                <span />
+                                <span />
+                              </div>
+                            </div>
+                          )}
+                          <div ref={chatThreadEndRef} className="sg-chat-thread-end" />
+                        </div>
+
+                        <form className="sg-chat-input-area" onSubmit={handleSendChat}>
+                          <input
+                            placeholder="Ask about savings, renewals, or waste..."
+                            value={chatInput}
+                            onChange={(e) => setChatInput(e.target.value)}
+                            disabled={isChatLoading}
+                          />
+                          <button type="submit" disabled={!chatInput.trim() || isChatLoading}>
+                            <Send size={18} />
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </motion.section>
+            ) : null}
 
-                {latestAnalysis ? (
-                  <motion.div
-                    className="sg-analysis-grid"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                      hidden: { opacity: 0 },
-                      visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
-                    }}
-                  >
-                    <motion.div
-                      className="sg-ai-card"
-                      variants={{
-                        hidden: { opacity: 0, scale: 0.95, y: 15 },
-                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
-                      }}
-                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(22, 163, 74, 0.08)" }}
-                    >
-                      <h4><Sparkles size={16} style={{ display: "inline-block", marginRight: 6, color: "var(--green)" }} /> {latestAnalysis.headline}</h4>
-                      <p className="sg-panel-copy">{latestAnalysis.summary}</p>
-                      <p className="sg-note">
-                        Generated {formatDate(latestAnalysis.generatedAt.slice(0, 10))}
-                        {latestAnalysis.warning ? ` - ${latestAnalysis.warning}` : ""}
-                      </p>
-                    </motion.div>
+            {activeView === "insights" ? (
+              <motion.section
+                className="sg-ai-layout"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="sg-ai-workspace is-insights-only">
+                  <div className="sg-ai-workspace-header">
+                    <div className="sg-chat-title">
+                      <div className="sg-chat-brand-mark">
+                        <AssistantMark size={34} />
+                      </div>
+                      <div>
+                        <span>Insights Hub</span>
+                        <h3>Analysis workspace</h3>
+                      </div>
+                    </div>
+                    <div className="sg-ai-workspace-actions">
+                      <div className="sg-chat-status">
+                        <span />
+                        Latest workspace read
+                      </div>
+                      <motion.button
+                        className="sg-button-secondary"
+                        type="button"
+                        onClick={handleRunAnalysis}
+                        disabled={workspaceState.busy}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        style={{ padding: '8px 16px', fontSize: 13 }}
+                      >
+                        <Sparkles size={14} style={{ marginRight: 6 }} />
+                        Analyze workspace
+                      </motion.button>
+                    </div>
+                  </div>
 
-                    <motion.div
-                      className="sg-ai-card"
-                      variants={{
-                        hidden: { opacity: 0, scale: 0.95, y: 15 },
-                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
-                      }}
-                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(22, 163, 74, 0.08)" }}
-                    >
-                      <h4>Savings opportunities</h4>
-                      <ul>
-                        {latestAnalysis.savingsOpportunities?.map((item) => (
-                          <motion.li key={item.title} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.25, duration: 0.4 }}>
-                            <strong>{item.title}:</strong> {item.detail} <span style={{ color: "var(--green)", fontWeight: 600 }}>({item.estimatedSavings})</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
+                  <div className="sg-ai-workspace-body">
+                    <div className="sg-ai-insights-pane">
+                      <div className="sg-ai-pane-header">
+                        <div>
+                          <span>Insights</span>
+                          <h3>Latest analysis</h3>
+                        </div>
+                        <Sparkles size={18} />
+                      </div>
 
-                    <motion.div
-                      className="sg-ai-card"
-                      variants={{
-                        hidden: { opacity: 0, scale: 0.95, y: 15 },
-                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
-                      }}
-                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(245, 158, 11, 0.08)" }}
-                    >
-                      <h4>Renewal risks</h4>
-                      <ul>
-                        {latestAnalysis.renewalRisks?.map((risk) => (
-                          <motion.li key={risk.title} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.35, duration: 0.4 }}>
-                            <strong>{risk.title}:</strong> {risk.detail} <span style={{ color: "var(--orange)" }}>({risk.dueDate})</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
+                      {latestAnalysis ? (
+                        <div className="sg-ai-insight-stack">
+                          <div className="sg-ai-summary-block">
+                            <h4>{latestAnalysis.headline}</h4>
+                            <p>{latestAnalysis.summary}</p>
+                          </div>
 
-                    <motion.div
-                      className="sg-ai-card"
-                      variants={{
-                        hidden: { opacity: 0, scale: 0.95, y: 15 },
-                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 15 } }
-                      }}
-                      whileHover={{ scale: 1.01, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.08)" }}
-                    >
-                      <h4>Recommended actions</h4>
-                      <ul>
-                        {latestAnalysis.recommendedActions?.map((action) => (
-                          <motion.li key={action} initial={{ x: -12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.45, duration: 0.4 }}>
-                            {action}
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    className="sg-empty"
-                    style={{ marginBottom: 40 }}
-                    initial={{ opacity: 0, scale: 0.92, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  >
-                    <motion.div animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
-                      <Bot size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
-                    </motion.div>
-                    Run an AI analysis to calculate insights against your latest financial data.
-                  </motion.div>
-                )}
+                          <div className="sg-ai-insight-section">
+                            <h4>Savings opportunities</h4>
+                            <div className="sg-ai-insight-list">
+                              {latestAnalysis.savingsOpportunities?.slice(0, 3).map((item) => (
+                                <div className="sg-ai-insight-row" key={item.title}>
+                                  <div>
+                                    <strong>{item.title}</strong>
+                                    <span>{item.detail}</span>
+                                  </div>
+                                  <em>{item.estimatedSavings}</em>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="sg-ai-insight-section">
+                            <h4>Recent risks</h4>
+                            <div className="sg-ai-insight-list">
+                              {latestAnalysis.renewalRisks?.slice(0, 3).map((risk) => (
+                                <div className="sg-ai-insight-row" key={risk.title}>
+                                  <div>
+                                    <strong>{risk.title}</strong>
+                                    <span>{risk.detail}</span>
+                                  </div>
+                                  <em>{risk.dueDate}</em>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="sg-ai-empty-state">
+                          <AssistantMark size={44} />
+                          <h4>No analysis yet</h4>
+                          <p>Run analysis to see savings opportunities, renewal risks, and next actions.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </motion.section>
             ) : null}
 
@@ -1544,11 +1798,12 @@ export default function SpendGuardApp() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => {
+              onClick={() => {
               setIsSubscriptionFormOpen(false);
               setEditingSubscription(null);
               setSubscriptionForm(emptySubscriptionForm);
               setCustomVendorName("");
+              setSubscriptionFormError("");
             }}
           >
             <motion.aside
@@ -1572,6 +1827,7 @@ export default function SpendGuardApp() {
                     setEditingSubscription(null);
                     setSubscriptionForm(emptySubscriptionForm);
                     setCustomVendorName("");
+                    setSubscriptionFormError("");
                   }}
                   aria-label="Close form"
                 >
@@ -1579,202 +1835,396 @@ export default function SpendGuardApp() {
                 </button>
               </div>
 
-              <form className="sg-stack" onSubmit={handleSaveSubscription}>
-                <label className="sg-field">
-                  <span>Tool name</span>
-                  <input
-                    value={subscriptionForm.toolName}
-                    onChange={(event) =>
-                      setSubscriptionForm((current) => ({ ...current, toolName: event.target.value }))
-                    }
-                    required
-                  />
-                </label>
-                <div className="sg-form-grid">
-                  <label className="sg-field">
-                    <span>Vendor</span>
-                    <select
-                      value={subscriptionForm.vendorId}
-                      onChange={(event) => {
-                        const nextVendorId = event.target.value;
-                        setSubscriptionForm((current) => ({ ...current, vendorId: nextVendorId }));
+              {workspaceState.error && (
+                <div className="sg-alert tone-red" style={{ marginBottom: 20 }}>
+                  <AlertTriangle size={16} />
+                  <span>{workspaceState.error}</span>
+                </div>
+              )}
 
-                        if (nextVendorId !== CUSTOM_VENDOR_ID) {
-                          setCustomVendorName("");
+              {subscriptionFormError ? (
+                <div className="sg-alert tone-red" style={{ marginBottom: 20 }}>
+                  <AlertTriangle size={16} />
+                  <span>{subscriptionFormError}</span>
+                </div>
+              ) : null}
+
+              <form className="sg-stack" onSubmit={handleSaveSubscription} noValidate style={{ paddingBottom: 40, marginTop: 20 }}>
+                {/* section: primary details */}
+                <div className="sg-form-section">
+                  <div className="sg-form-section-head">
+                    <Building2 size={16} />
+                    <h4>Primary details</h4>
+                  </div>
+                  
+                  <div className="sg-stack">
+                    <label className="sg-field">
+                      <span>Tool name</span>
+                      <input
+                        value={subscriptionForm.toolName}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, toolName: event.target.value }))
                         }
-                      }}
-                      required
-                    >
-                      {workspace.vendors.map((vendor) => (
-                        <option key={vendor.id} value={vendor.id}>
-                          {vendor.name}
-                        </option>
-                      ))}
-                      <option value={CUSTOM_VENDOR_ID}>Other</option>
-                    </select>
-                  </label>
-                  <label className="sg-field">
-                    <span>Department</span>
-                    <select
-                      value={subscriptionForm.departmentId}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, departmentId: event.target.value }))
-                      }
-                      required
-                    >
-                      {workspace.departments.map((department) => (
-                        <option key={department.id} value={department.id}>
-                          {department.name}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
+                        required
+                      />
+                    </label>
+
+                    <div className="sg-field">
+                      <span>Vendor</span>
+                      <div className="sg-vendor-selector">
+                        <button
+                          type="button"
+                          className="sg-vendor-trigger"
+                          onClick={() => setIsVendorPickerOpen(!isVendorPickerOpen)}
+                        >
+                          {subscriptionForm.vendorId ? (
+                            <div className="sg-vendor-selection">
+                              <VendorMark
+                                logoKey={vendorById.get(subscriptionForm.vendorId)?.logoKey}
+                                domain={vendorById.get(subscriptionForm.vendorId)?.website}
+                              />
+                              <strong>{vendorById.get(subscriptionForm.vendorId)?.name}</strong>
+                            </div>
+                          ) : (
+                            <span className="sg-placeholder">Select a vendor</span>
+                          )}
+                          <motion.div animate={{ rotate: isVendorPickerOpen ? 180 : 0 }}>
+                             <Plus size={18} />
+                          </motion.div>
+                        </button>
+
+                        <AnimatePresence>
+                          {isVendorPickerOpen ? (
+                            <motion.div
+                              className="sg-vendor-popover"
+                              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <div className="sg-vendor-search">
+                                <Search size={16} />
+                                <input
+                                  placeholder="Search vendors..."
+                                  value={vendorSearch}
+                                  onChange={(e) => setVendorSearch(e.target.value)}
+                                />
+                              </div>
+                              <div className="sg-vendor-grid">
+                                <button
+                                  type="button"
+                                  className={`sg-vendor-item ${subscriptionForm.vendorId === CUSTOM_VENDOR_ID ? 'is-active' : ''}`}
+                                  onClick={() => {
+                                    setSubscriptionForm(curr => ({ ...curr, vendorId: CUSTOM_VENDOR_ID }));
+                                    setIsVendorPickerOpen(false);
+                                    setVendorSearch("");
+                                  }}
+                                >
+                                  <div className="sg-vendor-mark"><Plus size={16} /></div>
+                                  <span>Custom Vendor</span>
+                                </button>
+                                {workspace.vendors
+                                  .filter(v => v.name.toLowerCase().includes(vendorSearch.toLowerCase()))
+                                  .map((vendor) => (
+                                    <button
+                                      key={vendor.id}
+                                      type="button"
+                                      className={`sg-vendor-item ${subscriptionForm.vendorId === vendor.id ? 'is-active' : ''}`}
+                                      onClick={() => {
+                                        setSubscriptionForm(curr => ({ ...curr, vendorId: vendor.id }));
+                                        setIsVendorPickerOpen(false);
+                                        setVendorSearch("");
+                                      }}
+                                    >
+                                      <VendorMark logoKey={vendor.logoKey} domain={vendor.website} />
+                                      <span>{vendor.name}</span>
+                                    </button>
+                                  ))}
+                              </div>
+                            </motion.div>
+                          ) : null}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+
+                    {subscriptionForm.vendorId === CUSTOM_VENDOR_ID ? (
+                      <label className="sg-field" style={{ marginTop: 10 }}>
+                        <span>Custom vendor name</span>
+                        <input
+                          value={customVendorName}
+                          onChange={(event) => setCustomVendorName(event.target.value)}
+                          placeholder="Netflix"
+                          required
+                        />
+                      </label>
+                    ) : null}
+                  </div>
                 </div>
-                {subscriptionForm.vendorId === CUSTOM_VENDOR_ID ? (
-                  <label className="sg-field">
-                    <span>Custom vendor name</span>
-                    <input
-                      value={customVendorName}
-                      onChange={(event) => setCustomVendorName(event.target.value)}
-                      placeholder="Netflix"
-                      required
-                    />
-                  </label>
-                ) : null}
-                <div className="sg-form-grid">
-                  <label className="sg-field">
-                    <span>Category</span>
-                    <select
-                      value={subscriptionForm.categoryId}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, categoryId: event.target.value }))
-                      }
-                      required
-                    >
-                      {workspace.categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="sg-field">
-                    <span>Plan</span>
-                    <input
-                      value={subscriptionForm.planName}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, planName: event.target.value }))
-                      }
-                      required
-                    />
-                  </label>
+
+                {/* section: finance & plan */}
+                <div className="sg-form-section">
+                  <div className="sg-form-section-head">
+                    <DollarSign size={16} />
+                    <h4>Finance & Plan</h4>
+                  </div>
+                  <div className="sg-form-grid">
+                    <label className="sg-field">
+                      <span>Plan</span>
+                      <input
+                        value={subscriptionForm.planName}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, planName: event.target.value }))
+                        }
+                        required
+                      />
+                    </label>
+                    <label className="sg-field">
+                      <span>Cost</span>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={subscriptionForm.cost}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, cost: event.target.value }))
+                        }
+                        required
+                      />
+                    </label>
+                  </div>
+                  <div className="sg-form-grid">
+                    <label className="sg-field">
+                      <span>Billing cycle</span>
+                      <select
+                        value={subscriptionForm.billingCycle}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, billingCycle: event.target.value }))
+                        }
+                      >
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="annual">Annual</option>
+                      </select>
+                    </label>
+                    <label className="sg-field">
+                      <span>Next renewal date</span>
+                      <input
+                        type="date"
+                        value={subscriptionForm.renewalDate}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, renewalDate: event.target.value }))
+                        }
+                        required
+                      />
+                    </label>
+                  </div>
                 </div>
-                <div className="sg-form-grid">
-                  <label className="sg-field">
-                    <span>Cost</span>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={subscriptionForm.cost}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, cost: event.target.value }))
-                      }
-                      required
-                    />
-                  </label>
-                  <label className="sg-field">
-                    <span>Billing cycle</span>
-                    <select
-                      value={subscriptionForm.billingCycle}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, billingCycle: event.target.value }))
-                      }
-                    >
-                      <option value="monthly">Monthly</option>
-                      <option value="quarterly">Quarterly</option>
-                      <option value="annual">Annual</option>
-                    </select>
-                  </label>
+
+                {/* section: classification */}
+                <div className="sg-form-section">
+                  <div className="sg-form-section-head">
+                    <Layers size={16} />
+                    <h4>Classification</h4>
+                  </div>
+                  <div className="sg-form-grid">
+                    <div className="sg-field">
+                      <span>Department</span>
+                      <div className="sg-vendor-selector">
+                        <button
+                          type="button"
+                          className="sg-vendor-trigger"
+                          onClick={() => setIsDeptPickerOpen(!isDeptPickerOpen)}
+                        >
+                          {subscriptionForm.departmentId ? (
+                            <div className="sg-vendor-selection">
+                              {(() => {
+                                 const dept = departmentById.get(subscriptionForm.departmentId);
+                                 const Icon = DEPARTMENT_ICON_MAP[dept?.name.toLowerCase()] || Building2;
+                                 return <Icon size={18} style={{ color: 'var(--green)' }} />;
+                              })()}
+                              <strong>{departmentById.get(subscriptionForm.departmentId)?.name}</strong>
+                            </div>
+                          ) : (
+                            <span className="sg-placeholder">Select department</span>
+                          )}
+                          <motion.div animate={{ rotate: isDeptPickerOpen ? 180 : 0 }}>
+                             <Plus size={18} />
+                          </motion.div>
+                        </button>
+                        <AnimatePresence>
+                          {isDeptPickerOpen ? (
+                            <motion.div
+                              className="sg-vendor-popover"
+                              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <div className="sg-vendor-grid">
+                                {workspace.departments.map((dept) => {
+                                  const Icon = DEPARTMENT_ICON_MAP[dept.name.toLowerCase()] || Building2;
+                                  return (
+                                    <button
+                                      key={dept.id}
+                                      type="button"
+                                      className={`sg-vendor-item ${subscriptionForm.departmentId === dept.id ? 'is-active' : ''}`}
+                                      onClick={() => {
+                                        setSubscriptionForm(curr => ({ ...curr, departmentId: dept.id }));
+                                        setIsDeptPickerOpen(false);
+                                      }}
+                                    >
+                                      <Icon size={18} />
+                                      <span>{dept.name}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          ) : null}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+
+                    <div className="sg-field">
+                      <span>Category</span>
+                      <div className="sg-vendor-selector">
+                        <button
+                          type="button"
+                          className="sg-vendor-trigger"
+                          onClick={() => setIsCategoryPickerOpen(!isCategoryPickerOpen)}
+                        >
+                          {subscriptionForm.categoryId ? (
+                            <div className="sg-vendor-selection">
+                              {(() => {
+                                 const cat = categoryById.get(subscriptionForm.categoryId);
+                                 const Icon = CATEGORY_ICON_MAP[cat?.name.toLowerCase()] || Layers;
+                                 return <Icon size={18} style={{ color: 'var(--green)' }} />;
+                              })()}
+                              <strong>{categoryById.get(subscriptionForm.categoryId)?.name}</strong>
+                            </div>
+                          ) : (
+                            <span className="sg-placeholder">Select category</span>
+                          )}
+                          <motion.div animate={{ rotate: isCategoryPickerOpen ? 180 : 0 }}>
+                             <Plus size={18} />
+                          </motion.div>
+                        </button>
+                        <AnimatePresence>
+                          {isCategoryPickerOpen ? (
+                            <motion.div
+                              className="sg-vendor-popover"
+                              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <div className="sg-vendor-grid">
+                                {workspace.categories.map((cat) => {
+                                  const Icon = CATEGORY_ICON_MAP[cat.name.toLowerCase()] || Layers;
+                                  return (
+                                    <button
+                                      key={cat.id}
+                                      type="button"
+                                      className={`sg-vendor-item ${subscriptionForm.categoryId === cat.id ? 'is-active' : ''}`}
+                                      onClick={() => {
+                                        setSubscriptionForm(curr => ({ ...curr, categoryId: cat.id }));
+                                        setIsCategoryPickerOpen(false);
+                                      }}
+                                    >
+                                      <Icon size={18} />
+                                      <span>{cat.name}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          ) : null}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <label className="sg-field">
-                  <span>Next renewal / payment date</span>
-                  <input
-                    type="date"
-                    value={subscriptionForm.renewalDate}
-                    onChange={(event) =>
-                      setSubscriptionForm((current) => ({ ...current, renewalDate: event.target.value }))
-                    }
-                    required
-                  />
-                </label>
-                <div className="sg-form-grid">
-                  <label className="sg-field">
-                    <span>Status</span>
-                    <select
-                      value={subscriptionForm.status}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, status: event.target.value }))
-                      }
-                    >
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                      <option value="canceled">Canceled</option>
-                    </select>
-                  </label>
-                  <label className="sg-field">
-                    <span>Usage</span>
-                    <select
-                      value={subscriptionForm.usageStatus}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, usageStatus: event.target.value }))
-                      }
-                    >
-                      <option value="healthy">Healthy</option>
-                      <option value="underused">Underused</option>
-                      <option value="unused">Unused</option>
-                      <option value="duplicate_candidate">Duplicate candidate</option>
-                    </select>
-                  </label>
+
+                {/* section: governance */}
+                <div className="sg-form-section">
+                  <div className="sg-form-section-head">
+                    <Shield size={16} />
+                    <h4>Governance</h4>
+                  </div>
+                  <div className="sg-form-grid">
+                    <label className="sg-field">
+                      <span>Status</span>
+                      <select
+                        value={subscriptionForm.status}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, status: event.target.value }))
+                        }
+                      >
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="canceled">Canceled</option>
+                      </select>
+                    </label>
+                    <label className="sg-field">
+                      <span>Usage health</span>
+                      <select
+                        value={subscriptionForm.usageStatus}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, usageStatus: event.target.value }))
+                        }
+                      >
+                        <option value="healthy">Healthy</option>
+                        <option value="underused">Underused</option>
+                        <option value="unused">Unused</option>
+                        <option value="duplicate_candidate">Duplicate candidate</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div className="sg-form-grid" style={{ marginTop: 12 }}>
+                    <label className="sg-field">
+                      <span>Seats</span>
+                      <input
+                        type="number"
+                        min="1"
+                        value={subscriptionForm.seats}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, seats: event.target.value }))
+                        }
+                      />
+                    </label>
+                    <label className="sg-field">
+                        <span>Auto renew</span>
+                        <select
+                          value={subscriptionForm.autoRenew ? "yes" : "no"}
+                          onChange={(event) =>
+                            setSubscriptionForm((current) => ({
+                              ...current,
+                              autoRenew: event.target.value === "yes"
+                            }))
+                          }
+                        >
+                          <option value="yes">Enabled</option>
+                          <option value="no">Disabled</option>
+                        </select>
+                      </label>
+                  </div>
                 </div>
-                <div className="sg-form-grid">
-                  <label className="sg-field">
-                    <span>Seats</span>
-                    <input
-                      type="number"
-                      min="1"
-                      value={subscriptionForm.seats}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, seats: event.target.value }))
-                      }
-                    />
-                  </label>
-                  <label className="sg-field">
-                    <span>Auto renew</span>
-                    <select
-                      value={subscriptionForm.autoRenew ? "yes" : "no"}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({
-                          ...current,
-                          autoRenew: event.target.value === "yes"
-                        }))
-                      }
-                    >
-                      <option value="yes">Enabled</option>
-                      <option value="no">Disabled</option>
-                    </select>
-                  </label>
+
+                <div className="sg-form-section">
+                    <label className="sg-field">
+                      <span>Internal notes</span>
+                      <textarea
+                        value={subscriptionForm.notes}
+                        onChange={(event) =>
+                          setSubscriptionForm((current) => ({ ...current, notes: event.target.value }))
+                        }
+                        placeholder="Purpose of tool, owner contact, and contract links..."
+                        style={{ textAlign: 'left', minHeight: 120 }}
+                      />
+                    </label>
                 </div>
-                <label className="sg-field">
-                  <span>Notes</span>
-                  <textarea
-                    value={subscriptionForm.notes}
-                    onChange={(event) =>
-                      setSubscriptionForm((current) => ({ ...current, notes: event.target.value }))
-                    }
-                  />
-                </label>
-                <button className="sg-button" type="submit" disabled={workspaceState.busy}>
+
+                <button className="sg-button" type="submit" disabled={workspaceState.busy} style={{ width: '100%', marginTop: 20 }}>
                   {editingSubscription ? "Save changes" : "Create subscription"}
                 </button>
               </form>

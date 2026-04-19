@@ -19,6 +19,7 @@ import {
   SiZoom,
   SiOpenai
 } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
 import {
   Blocks,
   BookOpenText,
@@ -54,7 +55,7 @@ const ICON_MAP = {
   dropbox: SiDropbox,
   figma: SiFigma,
   github: SiGithub,
-  google: SiGoogle,
+  google: FcGoogle,
   hubspot: SiHubspot,
   intercom: MessageSquare,
   jira: SiJira,
@@ -85,7 +86,7 @@ const ICON_MAP = {
   ironclad: Shield,
   docusign: BookOpenText,
   sendgrid: Mail,
-  looker: SiGoogle,
+  looker: FcGoogle,
 };
 
 const BRAND_COLORS = {

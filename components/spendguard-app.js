@@ -1101,10 +1101,10 @@ export default function SpendGuardApp() {
 
                   <div className="sg-report-grid">
                     <div className="sg-surface sg-panel" style={{ gridColumn: '1 / -1' }}>
-                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Payment pipeline (Next 12 Months)</h4>
+                      <h4 className="sg-panel-title" style={{ fontSize: 16, marginBottom: 24 }}>Payment pipeline (Next 12 Months)</h4>
                       <div className="sg-chart-shell" style={{ height: 280 }}>
                         <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart data={workspace.reports.monthlyTrend}>
+                          <AreaChart data={workspace.reports.monthlyTrend} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                             <defs>
                               <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#2563eb" stopOpacity={0.6} />
@@ -1122,7 +1122,7 @@ export default function SpendGuardApp() {
                     </div>
 
                     <div className="sg-surface sg-panel">
-                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Department consumption</h4>
+                      <h4 className="sg-panel-title" style={{ fontSize: 16, marginBottom: 24 }}>Department consumption</h4>
                       <div className="sg-chart-shell">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart data={workspace.reports.departmentSpend} layout="vertical" margin={{ top: 0, right: 0, left: 30, bottom: 0 }}>
@@ -1141,7 +1141,7 @@ export default function SpendGuardApp() {
                     </div>
 
                     <div className="sg-surface sg-panel">
-                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Top expensive tools</h4>
+                      <h4 className="sg-panel-title" style={{ fontSize: 16, marginBottom: 24 }}>Top expensive tools</h4>
                       <div className="sg-chart-shell">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart data={topCostly}>
@@ -1156,7 +1156,7 @@ export default function SpendGuardApp() {
                     </div>
 
                     <div className="sg-surface sg-panel">
-                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Category distribution</h4>
+                      <h4 className="sg-panel-title" style={{ fontSize: 16, marginBottom: 24 }}>Category distribution</h4>
                       <div className="sg-chart-shell">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
@@ -1179,7 +1179,7 @@ export default function SpendGuardApp() {
                     </div>
 
                     <div className="sg-surface sg-panel">
-                      <h4 className="sg-panel-title" style={{ fontSize: 16 }}>Efficiency risk (Spend by Usage)</h4>
+                      <h4 className="sg-panel-title" style={{ fontSize: 16, marginBottom: 24 }}>Efficiency risk (Spend by Usage)</h4>
                       <div className="sg-chart-shell">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>

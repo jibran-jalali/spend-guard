@@ -671,7 +671,27 @@ export default function SpendGuardApp() {
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
-                    <Icon size={18} style={{ position: "relative", zIndex: 1 }} />
+                    <motion.div
+                      animate={isActive ? { scale: 1.15, rotate: [0, -10, 10, -10, 0] } : { scale: 1, rotate: 0 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{ 
+                        scale: { type: "spring", stiffness: 400, damping: 17 },
+                        rotate: { duration: 0.45, ease: "easeInOut" }
+                      }}
+                      style={{ 
+                        position: "relative", 
+                        zIndex: 1, 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center",
+                        width: 24,
+                        height: 24,
+                        color: "inherit"
+                      }}
+                    >
+                      <Icon size={18} />
+                    </motion.div>
                     <span style={{ position: "relative", zIndex: 1 }}>{item.label}</span>
                   </button>
                 );

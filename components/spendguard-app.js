@@ -1697,30 +1697,17 @@ export default function SpendGuardApp() {
                     </select>
                   </label>
                 </div>
-                <div className="sg-form-grid">
-                  <label className="sg-field">
-                    <span>Renewal date</span>
-                    <input
-                      type="date"
-                      value={subscriptionForm.renewalDate}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, renewalDate: event.target.value }))
-                      }
-                      required
-                    />
-                  </label>
-                  <label className="sg-field">
-                    <span>Next billing date</span>
-                    <input
-                      type="date"
-                      value={subscriptionForm.nextBillingDate}
-                      onChange={(event) =>
-                        setSubscriptionForm((current) => ({ ...current, nextBillingDate: event.target.value }))
-                      }
-                      required
-                    />
-                  </label>
-                </div>
+                <label className="sg-field">
+                  <span>Next renewal / payment date</span>
+                  <input
+                    type="date"
+                    value={subscriptionForm.renewalDate}
+                    onChange={(event) =>
+                      setSubscriptionForm((current) => ({ ...current, renewalDate: event.target.value }))
+                    }
+                    required
+                  />
+                </label>
                 <div className="sg-form-grid">
                   <label className="sg-field">
                     <span>Status</span>

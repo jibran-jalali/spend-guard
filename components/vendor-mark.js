@@ -127,6 +127,7 @@ const BRAND_COLORS = {
 
 export function VendorMark({ logoKey, category = "default", domain }) {
   const [imgError, setImgError] = useState(false);
+  const [useSecondary, setUseSecondary] = useState(false);
 
   const normalizedKey = String(logoKey || "").toLowerCase().replace(/[^a-z0-9]/g, "");
   const Icon =
@@ -136,7 +137,6 @@ export function VendorMark({ logoKey, category = "default", domain }) {
 
   const brandColor = BRAND_COLORS[logoKey] || BRAND_COLORS[normalizedKey];
 
-  // Extract domain from website if domain is not provided but website is?
   let activeDomain = domain;
   if (activeDomain && activeDomain.includes("://")) {
     try {
@@ -146,6 +146,11 @@ export function VendorMark({ logoKey, category = "default", domain }) {
     }
   }
 
+  // Final fallback to Google Favicons if Clearbit fails
+  const imgSrc = useSecondary
+    ? `https://www.google.com/s2/favicons?domain=${activeDomain}&sz=128`
+    : `https://logo.clearbit.com/${activeDomain}`;
+
   return (
     <span
       className={`sg-vendor-mark ${activeDomain && !imgError ? "has-image" : ""}`}
@@ -154,9 +159,15 @@ export function VendorMark({ logoKey, category = "default", domain }) {
     >
       {activeDomain && !imgError ? (
         <img
-          src={`https://logo.clearbit.com/${activeDomain}`}
+          src={imgSrc}
           alt=""
-          onError={() => setImgError(true)}
+          onError={() => {
+            if (!useSecondary) {
+              setUseSecondary(true);
+            } else {
+              setImgError(true);
+            }
+          }}
           style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "inherit" }}
         />
       ) : (

@@ -1,11 +1,12 @@
 # SpendGuard: Technical Data Architecture Documentation
 
 ## 1. Executive Summary
-SpendGuard is a premium SaaS spend management platform designed to provide organizations with extreme visibility into their recurring expenses. The architecture centers around a **secure, multi-tenant Postgres-first design** on Supabase, leveraging Row Level Security (RLS) and AI-driven analysis to proactively identify waste and consolidation opportunities.
+
+SpendGuard is a SaaS subscription management platform built on a secure, multi-tenant Supabase/Postgres model. The current data model focuses on vendor-backed subscription records, departments, categories, renewal dates, and spend reporting.
 
 ---
 
-## 2. Entity Relationship Diagram (ERD)
+## 2. Entity Relationship Diagram
 
 ```mermaid
 erDiagram
@@ -14,15 +15,10 @@ erDiagram
     BUSINESSES ||--o{ SUBSCRIPTION_CATEGORIES : defines
     BUSINESSES ||--o{ VENDORS : manages
     BUSINESSES ||--o{ SUBSCRIPTIONS : owns
-    BUSINESSES ||--o{ PAYMENTS : records
-    BUSINESSES ||--o{ ALERTS : monitors
-    BUSINESSES ||--o{ AI_ANALYSES : generates
 
     DEPARTMENTS ||--o{ SUBSCRIPTIONS : assigned_to
     SUBSCRIPTION_CATEGORIES ||--o{ SUBSCRIPTIONS : categorized_as
-    VENDORS ||--o{ SUBSCRIPTIONS : facilitates
-    SUBSCRIPTIONS ||--o{ PAYMENTS : bills
-    SUBSCRIPTIONS ||--o{ ALERTS : triggers
+    VENDORS ||--o{ SUBSCRIPTIONS : names
 
     BUSINESSES {
         uuid id PK
@@ -39,105 +35,98 @@ erDiagram
         user_role role
     }
 
+    VENDORS {
+        uuid id PK
+        uuid business_id FK
+        text name
+        text logo_key
+        text website
+    }
+
     SUBSCRIPTIONS {
         uuid id PK
         uuid business_id FK
         uuid department_id FK
         uuid vendor_id FK
         uuid category_id FK
-        text tool_name
+        text plan_name
         numeric cost
         billing_cycle cycle
         date renewal_date
-        usage_status health
-    }
-
-    PAYMENTS {
-        uuid id PK
-        uuid subscription_id FK
-        numeric amount
-        date due_date
-        payment_status status
-    }
-
-    AI_ANALYSES {
-        uuid id PK
-        uuid business_id FK
-        jsonb recommendations
-        jsonb metrics_snapshot
+        date next_billing_date
+        subscription_status status
     }
 ```
 
 ---
 
-## 3. Entity Definitions & Integrity
+## 3. Entity Definitions
 
-### **Core Entities**
-1.  **Businesses**: The root tenant object. All platform data is partitioned by `business_id`.
-2.  **Profiles**: Extends Supabase `auth.users`, linking authenticated users to their specific Business tenant via a Foreign Key.
-3.  **Subscriptions**: The primary ledger of organization-wide tools. Tracks cost, renewal cadence, and the innovative **Usage Status** (e.g., *Duplicate Candidate*).
+1. **Businesses**: Root tenant record. All workspace data is partitioned by `business_id`.
+2. **Profiles**: Links Supabase `auth.users` records to a tenant.
+3. **Vendors**: Canonical subscription names and logo metadata. A subscription must have a vendor.
+4. **Subscriptions**: Contract and renewal ledger for vendor plans. The main display name comes from `vendors.name`.
+5. **Departments and Categories**: Reporting dimensions for spend allocation.
 
-### **Relational Metadata**
--   **Departments**: Allows financial and operational slicing of spend.
--   **Vendors**: Maintains tool-identity mapping for brand-consistent logo rendering.
--   **Categories**: Groups tools (e.g., *Productivity*, *Security*) for high-level consumption analysis.
-
-### **Operational Ledger**
--   **Payments**: The granular transaction history. Links to Subscriptions to track drift between "Contracted Cost" and "Actual Spend."
--   **Alerts**: Event-driven notifications (e.g., *Overdue Payment*, *Approaching Renewal*) specifically scoped to the current tenant.
+Payments, alerts, and saved AI analysis records have been removed from the schema.
 
 ---
 
-## 4. Innovative Schema Overview
-The uniqueness of SpendGuard lies in its **Secure Contextual Layer**:
+## 4. Security Model
 
-### **Multi-Tenancy via RLS**
-Instead of handling tenant isolation in application code, SpendGuard uses Postgres **Row Level Security**. Every table has a policy that executes a `security definer` function to ensure users can *only* see data belonging to their own `business_id`.
+SpendGuard uses Postgres Row Level Security. Each tenant-scoped table checks `public.current_business_id()`, which resolves the signed-in user's `business_id` from `profiles`.
 
-### **AI Integration Layer (`ai_analyses`)**
-Unlike static reporting tools, SpendGuard stores JSONB snapshots of AI recommendations. This allows the system to compare past financial states with current ones to track "Savings Efficiency" over time.
+The service role is only used server-side for account bootstrap.
 
 ---
 
-## 5. Sample Innovative SQL Queries
+## 5. Useful SQL Queries
 
-### **A. Detecting Potential $0 Usage Waste**
-Identify subscriptions flagged as 'unused' and calculate the immediate monthly burn rate that could be reclaimed.
+### Monthly Spend by Department
+
 ```sql
-SELECT 
-  d.name as department, 
-  s.tool_name, 
-  s.cost, 
-  s.currency 
+SELECT
+  d.name AS department,
+  SUM(
+    CASE s.billing_cycle
+      WHEN 'annual' THEN s.cost / 12
+      WHEN 'quarterly' THEN s.cost / 3
+      ELSE s.cost
+    END
+  ) AS monthly_spend
 FROM public.subscriptions s
-JOIN public.departments d ON s.department_id = d.id
-WHERE s.usage_status = 'unused' 
-  AND s.status = 'active'
-ORDER BY s.cost DESC;
+LEFT JOIN public.departments d ON s.department_id = d.id
+WHERE s.status = 'active'
+GROUP BY d.name
+ORDER BY monthly_spend DESC;
 ```
 
-### **B. Calculating Tenant Spend Pipeline**
-Aggregates future projections for the next 90 days to help Finance teams anticipate credit card load.
-```sql
-SELECT 
-  date_trunc('month', due_date) as payment_month,
-  sum(amount) as estimated_outflow
-FROM public.payments
-WHERE status = 'projected' 
-  AND due_date BETWEEN now() AND now() + interval '90 days'
-GROUP BY 1 ORDER BY 1;
-```
+### Upcoming Renewals
 
-### **C. Cross-Department Duplicate Identification**
-A query used by the AI engine to detect if multiple departments are paying for the same vendor independently.
 ```sql
-SELECT 
-  v.name as vendor, 
-  COUNT(DISTINCT s.department_id) as dept_count,
-  STRING_AGG(d.name, ', ') as department_list
+SELECT
+  v.name AS vendor,
+  s.plan_name,
+  s.renewal_date,
+  s.cost,
+  s.billing_cycle
 FROM public.subscriptions s
 JOIN public.vendors v ON s.vendor_id = v.id
-JOIN public.departments d ON s.department_id = d.id
+WHERE s.status = 'active'
+ORDER BY s.renewal_date ASC;
+```
+
+### Cross-Department Duplicate Vendors
+
+```sql
+SELECT
+  v.name AS vendor,
+  COUNT(DISTINCT s.department_id) AS department_count,
+  STRING_AGG(DISTINCT d.name, ', ') AS departments
+FROM public.subscriptions s
+JOIN public.vendors v ON s.vendor_id = v.id
+LEFT JOIN public.departments d ON s.department_id = d.id
+WHERE s.status = 'active'
 GROUP BY v.name
 HAVING COUNT(DISTINCT s.department_id) > 1;
 ```

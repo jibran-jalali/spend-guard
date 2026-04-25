@@ -1,16 +1,14 @@
 # SpendGuard
 
-SpendGuard is a Next.js subscription management app for small businesses. It tracks recurring subscriptions, payment history, renewal timing, duplicate tools, underused software, and AI-generated savings recommendations.
+SpendGuard is a Next.js subscription management app for small businesses. It tracks recurring vendor subscriptions, renewal timing, duplicate vendors, department spend, and category spend.
 
 ## What is implemented
 
 - Next.js App Router UI with a responsive operational dashboard
 - Supabase-ready auth flow: login, registration, password reset, and account bootstrap
-- Demo mode that works immediately without credentials
-- Subscription CRUD, payment logging, department management, alert center, charts, and CSV export
-- Groq-backed analysis route with a local heuristic fallback
-- Supabase PostgreSQL schema and seed SQL
-- Vercel-friendly API routes, including a cron refresh endpoint for alerts and projected payments
+- Vendor-based subscription CRUD, department management, charts, and CSV export
+- Groq-backed AI chat with a local fallback response
+- Supabase PostgreSQL schema, destructive cleanup migration, and seed SQL
 
 ## Local setup
 
@@ -28,27 +26,26 @@ npm install
 npm run dev
 ```
 
-If you skip the Supabase and Groq environment variables, SpendGuard runs in demo mode and keeps the seeded workspace in local storage.
-
 ## Environment variables
 
 - `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SECRET_KEY`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` legacy fallback
+- `SUPABASE_SERVICE_ROLE_KEY` legacy fallback
 - `GROQ_API_KEY`
 - `GROQ_MODEL`
-- `CRON_SECRET`
 
 ## Supabase database
 
-- Apply [db/schema.sql](C:\Users\T14s\Desktop\spend guard\db\schema.sql)
-- Optionally load [db/seed.sql](C:\Users\T14s\Desktop\spend guard\db\seed.sql)
+- For a fresh database, apply `db/schema.sql`.
+- For an existing database with the previous payments, alerts, analysis, or tool-name columns, apply `db/migrate-remove-payments-alerts-analysis.sql`.
+- Optionally load `db/seed.sql`.
 
 The app expects the tables created by `schema.sql`, plus the standard `auth.users` table from Supabase Auth.
 
 ## Notes
 
-- Demo mode is immediate and safe for local review.
-- Live mode uses Supabase Auth plus business-scoped row-level security.
-- `/api/analyze` returns structured recommendations and gracefully falls back to local heuristics if Groq is unavailable.
-- `/api/cron/refresh` is ready for a Vercel cron job once `CRON_SECRET` and Supabase admin credentials are configured.
+- Subscription names now come from `vendors.name`; `subscriptions.tool_name` has been removed.
+- Payments, alerts, and saved AI analyses have been removed from the database and UI.
+- `/api/chat` uses Groq when configured and returns a local workspace readout when Groq is unavailable.
